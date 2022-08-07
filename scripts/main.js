@@ -1,4 +1,4 @@
-let defaultPokemon = 1
+let defaultPokemon = 25
 
 import API from "./modules/fetchAPI.js"
 const api = new API()
@@ -8,6 +8,11 @@ const support = new Support()
 
 const getPokemonData = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
+
+    if (!data) {
+        console.error('Data not found in getPokemonData.')
+        return
+    }
 
     const pokemonNumber = data.id
     const pokemonName = data.name
@@ -21,11 +26,16 @@ const getPokemonData = async (pokemon) => {
 const getPokemonSpecie = async (pokemonId) => {
     const data = await api.fetchSpecieAPI(pokemonId)
 
+    if (!data) {
+        console.error('Data not found in getPokemonSpecie.')
+        return
+    }
+
     const pokemonHappiness = data.base_happiness
     const pokemonCaptureRate = data.capture_rate
     const pokemonColor = data.color.name
     const pokemonShape = data.shape.name
-    const pokemonHabitat = data.habitat.name
+    const pokemonHabitat = data.habitat != null ? data.habitat.name : null
     const pokemonHasGenderDifference = data.has_gender_differences
     const pokemonGeneration = data.generation.name
     const pokemonIsBaby = data.is_baby
@@ -35,6 +45,11 @@ const getPokemonSpecie = async (pokemonId) => {
 
 const getPokemonTypes = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
+
+    if (!data) {
+        console.error('Data not found in getPokemonTypes.')
+        return
+    }
 
     const pokemonTypes = []
     const dataTypes = data.types
@@ -52,6 +67,11 @@ const getPokemonTypes = async (pokemon) => {
 const getPokemonMoves = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
 
+    if (!data) {
+        console.error('Data not found in getPokemonMoves.')
+        return
+    }
+
     const dataMoves = data.moves
 
     dataMoves.forEach((pokemonMove) => {
@@ -63,6 +83,11 @@ const getPokemonMoves = async (pokemon) => {
 
 const getMoveInfos = async (pokemonMove) => {
     const data = await api.fetchMoveAPI(pokemonMove)
+
+    if (!data) {
+        console.error('Data not found in getMoveInfos.')
+        return
+    }
 
     const moveName = support.capitalize(data.name)
     const moveType = data.type.name
@@ -91,6 +116,11 @@ const getMoveInfos = async (pokemonMove) => {
 const getPokemonAbilities = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
 
+    if (!data) {
+        console.error('Data not found in getPokemonAbilities.')
+        return
+    }
+
     const pokemonAbilities = []
     const dataAbilities = data.abilities
 
@@ -104,11 +134,21 @@ const getPokemonAbilities = async (pokemon) => {
 const getPokemonAbilityInfos = async (pokemonAbility) => {
     const data = await api.fetchAbilityAPI(pokemonAbility)
 
+    if (!data) {
+        console.error('Data not found in getPokemonAbilityInfos.')
+        return
+    }
+
     const abilityEffect = data.effect_entries[1].effect
 }
 
 const getPokemonImage = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
+
+    if (!data) {
+        console.error('Data not found in getPokemonImage.')
+        return
+    }
 
     const pokemonId = ("000" + data.id).slice(-3)
     const pokemonImage = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemonId}.png`
@@ -116,6 +156,11 @@ const getPokemonImage = async (pokemon) => {
 
 const getPokemonSpriteMale = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
+
+    if (!data) {
+        console.error('Data not found in getPokemonSpriteMale.')
+        return
+    }
 
     const pokemonId = ("000" + data.id).slice(-3)
 
@@ -142,6 +187,11 @@ const getPokemonSpriteMale = async (pokemon) => {
 const getPokemonSpriteFemale = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
 
+    if (!data) {
+        console.error('Data not found in getPokemonSpriteFemale.')
+        return
+    }
+
     const pokemonId = ("000" + data.id).slice(-3)
 
     let pokemonSpriteFrontFemale
@@ -167,6 +217,11 @@ const getPokemonSpriteFemale = async (pokemon) => {
 const getPokemonHeldItems = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
 
+    if (!data) {
+        console.error('Data not found in getPokemonHeldItems.')
+        return
+    }
+
     const pokemonItems = []
     const dataItems = data.held_items
 
@@ -177,6 +232,11 @@ const getPokemonHeldItems = async (pokemon) => {
 
 const getPokemonWeakness = async (pokemonType) => {
     const data = await api.fetchTypeAPI(pokemonType)
+
+    if (!data) {
+        console.error('Data not found in getPokemonWeakness.')
+        return
+    }
 
     const doubleDamage = data.damage_relations.double_damage_from
     const halfDamage = data.damage_relations.half_damage_from
@@ -189,6 +249,11 @@ const getPokemonWeakness = async (pokemonType) => {
 
 const getPokemonBenefits = async (pokemonType) => {
     const data = await api.fetchTypeAPI(pokemonType)
+
+    if (!data) {
+        console.error('Data not found in getPokemonBenefits.')
+        return
+    }
 
     const doubleDamage = data.damage_relations.double_damage_to
     const halfDamage = data.damage_relations.half_damage_to
@@ -212,6 +277,11 @@ const getWeakStrongTypes = (types) => {
 const getPokemonStats = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
 
+    if (!data) {
+        console.error('Data not found in getPokemonStats.')
+        return
+    }
+
     const pokemonStats = []
     const dataStats = data.stats
 
@@ -222,6 +292,11 @@ const getPokemonStats = async (pokemon) => {
 
 const getPokemonEggGroup = async (pokemon) => {
     const data = await api.fetchSpecieAPI(pokemon)
+
+    if (!data) {
+        console.error('Data not found in getPokemonEggGroup.')
+        return
+    }
 
     const pokemonEggGroups = []
     const dataEggGroups = data.egg_groups
@@ -234,6 +309,11 @@ const getPokemonEggGroup = async (pokemon) => {
 const getPokemonGrowthRate = async (pokemon) => {
     const data = await api.fetchSpecieAPI(pokemon)
 
+    if (!data) {
+        console.error('Data not found in getPokemonGrowthRate.')
+        return
+    }
+
     const pokemonGrowthRate = data.growth_rate.name
 
     getPokemonXPPerLevel(pokemonGrowthRate)
@@ -241,6 +321,11 @@ const getPokemonGrowthRate = async (pokemon) => {
 
 const getPokemonXPPerLevel = async (growthRateName) => {
     const data = await api.fetchGrowthRateAPI(growthRateName)
+
+    if (!data) {
+        console.error('Data not found in getPokemonXPPerLevel.')
+        return
+    }
 
     const pokemonXPPerLevel = []
     const dataLevels = data.levels
@@ -253,6 +338,11 @@ const getPokemonXPPerLevel = async (growthRateName) => {
 const getPokemonEvolutionChain = async (pokemon) => {
     const data = await api.fetchSpecieAPI(pokemon)
 
+    if (!data || !data.evolution_chain) {
+        console.error('Data not found in getPokemonEvolutionChain.')
+        return
+    }
+
     const evolutionChainURL = data.evolution_chain.url
     const dataEvolution = await api.fetchEvolutionAPI(evolutionChainURL)
 
@@ -263,6 +353,11 @@ const getPokemonEvolutionChain = async (pokemon) => {
 
 const getPokemonVarieties = async (pokemon) => {
     const data = await api.fetchSpecieAPI(pokemon)
+
+    if (!data) {
+        console.error('Data not found in getPokemonVarieties.')
+        return
+    }
 
     const pokemonVarieties = []
     const dataVarieties = data.varieties
@@ -277,6 +372,11 @@ const getPokemonVarieties = async (pokemon) => {
 const getPokemonVarietionImage = async (pokemonVarietionURL) => {
     const data = await api.fetchVarietionAPI(pokemonVarietionURL)
 
+    if (!data) {
+        console.error('Data not found in getPokemonVarietionImage.')
+        return
+    }
+
     const pokemonSpriteFront = data.sprites.versions["generation-v"]["black-white"].front_default
     const pokemonSpriteBack = data.sprites.versions["generation-v"]["black-white"].back_default
     const pokemonSpriteFrontShiny = data.sprites.versions["generation-v"]["black-white"].front_shiny
@@ -286,8 +386,21 @@ const getPokemonVarietionImage = async (pokemonVarietionURL) => {
 const getPokedexInfos = async (pokemon) => {
     const data = await api.fetchSpecieAPI(pokemon)
 
+    if (!data) {
+        console.error('Data not found in getPokedexInfos.')
+        return
+    }
+
     const pokedexDescription = []
-    const pokemonGenus = data.genera[7].genus
+    const dataGenera = data.genera
+
+    let pokemonGenus
+
+    dataGenera.forEach((dataGenus) => {
+        if (dataGenus.language.name === "en") {
+            pokemonGenus = dataGenus.genus
+        }
+    })
 
     const dataPokedex = data.flavor_text_entries
 
@@ -315,4 +428,4 @@ const startApp = (pokemon) => {
     getPokedexInfos(pokemon)
 }
 
-startApp(defaultPokemon.toString())
+startApp(defaultPokemon.toString().toLowerCase())
