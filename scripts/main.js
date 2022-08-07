@@ -1,4 +1,4 @@
-let defaultPokemon = '1'
+let defaultPokemon = 1
 
 import API from "./modules/fetchAPI.js"
 const api = new API()
@@ -260,7 +260,7 @@ const getPokemonEvolutionChain = async (pokemon) => {
     const secondEvolve = dataEvolution.chain.evolves_to[0].species.name
     const finalEvolve = dataEvolution.chain.evolves_to[0].evolves_to[0].species.name
 
-    console.log(dataEvolution)
+    //console.log(dataEvolution)
 }
 
 const getPokemonVarieties = async (pokemon) => {
@@ -300,6 +300,20 @@ const getPokedexInfos = async (pokemon) => {
     })
 }
 
+// const buttonNext = document.querySelector('.nextButton')
+// buttonNext.addEventListener('click', () => {
+//     defaultPokemon += 1
+//     startApp(defaultPokemon.toString())
+// })
+
+// const buttonPrev = document.querySelector('.prevButton')
+// buttonPrev.addEventListener('click', () => {
+//     if (defaultPokemon > 1) {
+//         defaultPokemon -= 1
+//         startApp(defaultPokemon.toString())
+//     }
+// })
+
 const startApp = (pokemon) => {
     getPokemonData(pokemon)
     getPokemonTypes(pokemon)
@@ -317,4 +331,4 @@ const startApp = (pokemon) => {
     getPokedexInfos(pokemon)
 }
 
-startApp(defaultPokemon)
+startApp(defaultPokemon.toString())
