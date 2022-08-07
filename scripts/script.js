@@ -4,7 +4,7 @@ import API from "./modules/fetchAPI.js"
 const api = new API()
 
 import Support from "./modules/supportFunctions.js"
-const support = new Support
+const support = new Support()
 
 const getPokemonData = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
