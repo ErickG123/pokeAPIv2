@@ -1,100 +1,13 @@
 let defaultPokemon = '1'
 
-const fetchPokemonAPI = async (pokemon) => {
-    const pokemonInfosURL = `https://pokeapi.co/api/v2/pokemon/${pokemon.toLowerCase()}`
+import API from "./modules/fetchAPI.js"
+const api = new API()
 
-    try {
-        const APIResponse = await fetch(pokemonInfosURL)
-        const data = await APIResponse.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const fetchMoveAPI = async (moveName) => {
-    const moveInfosURL = `https://pokeapi.co/api/v2/move/${moveName}`
-
-    try {
-        const APIResponse = await fetch(moveInfosURL)
-        const data = await APIResponse.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const fetchAbilityAPI = async (abilityName) => {
-    const abilitiesInfosURL = `https://pokeapi.co/api/v2/ability/${abilityName}`
-
-    try {
-        const APIResponse = await fetch(abilitiesInfosURL)
-        const data = await APIResponse.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const fetchTypeAPI = async (typeName) => {
-    const typeInfosURL = `https://pokeapi.co/api/v2/type/${typeName}`
-
-    try {
-        const APIResponse = await fetch(typeInfosURL)
-        const data = await APIResponse.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const fetchSpecieAPI = async (pokemonId) => {
-    const specieInfosURL = `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`
-
-    try {
-        const APIResponse = await fetch(specieInfosURL)
-        const data = await APIResponse.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const fetchGrowthRateAPI = async (growthRateName) => {
-    const growthRateInfosURL = `https://pokeapi.co/api/v2/growth-rate/${growthRateName}/`
-
-    try {
-        const APIResponse = await fetch(growthRateInfosURL)
-        const data = await APIResponse.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const fetchEvolutionAPI = async (evolutionChainURL) => {
-    try {
-        const APIResponse = await fetch(evolutionChainURL)
-        const data = await APIResponse.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const fetchVarietionAPI = async (pokemonVarietionURL) => {
-    try {
-        const APIResponse = await fetch(pokemonVarietionURL)
-        const data = await APIResponse.json()
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
+import Support from "./modules/supportFunctions.js"
+const support = new Support
 
 const getPokemonData = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const pokemonNumber = data.id
     const pokemonName = data.name
@@ -106,7 +19,7 @@ const getPokemonData = async (pokemon) => {
 }
 
 const getPokemonSpecie = async (pokemonId) => {
-    const data = await fetchSpecieAPI(pokemonId)
+    const data = await api.fetchSpecieAPI(pokemonId)
 
     const pokemonHappiness = data.base_happiness
     const pokemonCaptureRate = data.capture_rate
@@ -121,7 +34,7 @@ const getPokemonSpecie = async (pokemonId) => {
 }
 
 const getPokemonTypes = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const pokemonTypes = []
     const dataTypes = data.types
@@ -136,15 +49,8 @@ const getPokemonTypes = async (pokemon) => {
     })
 }
 
-const capitalize = (moveName) => {
-    const moveNameReplace = moveName.replace('-', ' ')
-    const moveNameCapitalized = moveNameReplace.charAt(0).toUpperCase() + moveNameReplace.slice(1)
-
-    return moveNameCapitalized
-}
-
 const getPokemonMoves = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const dataMoves = data.moves
 
@@ -156,9 +62,9 @@ const getPokemonMoves = async (pokemon) => {
 }
 
 const getMoveInfos = async (pokemonMove) => {
-    const data = await fetchMoveAPI(pokemonMove)
+    const data = await api.fetchMoveAPI(pokemonMove)
 
-    const moveName = capitalize(data.name)
+    const moveName = support.capitalize(data.name)
     const moveType = data.type.name
     const moveDamageClass = data.damage_class.name
     const movePower = data.power
@@ -183,7 +89,7 @@ const getMoveInfos = async (pokemonMove) => {
 }
 
 const getPokemonAbilities = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const pokemonAbilities = []
     const dataAbilities = data.abilities
@@ -196,20 +102,20 @@ const getPokemonAbilities = async (pokemon) => {
 }
 
 const getPokemonAbilityInfos = async (pokemonAbility) => {
-    const data = await fetchAbilityAPI(pokemonAbility)
+    const data = await api.fetchAbilityAPI(pokemonAbility)
 
     const abilityEffect = data.effect_entries[1].effect
 }
 
 const getPokemonImage = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const pokemonId = ("000" + data.id).slice(-3)
     const pokemonImage = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/${pokemonId}.png`
 }
 
 const getPokemonSpriteMale = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const pokemonId = ("000" + data.id).slice(-3)
 
@@ -234,7 +140,7 @@ const getPokemonSpriteMale = async (pokemon) => {
 }
 
 const getPokemonSpriteFemale = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const pokemonId = ("000" + data.id).slice(-3)
 
@@ -259,18 +165,18 @@ const getPokemonSpriteFemale = async (pokemon) => {
 }
 
 const getPokemonHeldItems = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const pokemonItems = []
     const dataItems = data.held_items
 
     dataItems.forEach((pokemonItem) => {
-        pokemonItems.push(capitalize(pokemonItem.item.name))
+        pokemonItems.push(support.capitalize(pokemonItem.item.name))
     })
 }
 
 const getPokemonWeakness = async (pokemonType) => {
-    const data = await fetchTypeAPI(pokemonType)
+    const data = await api.fetchTypeAPI(pokemonType)
 
     const doubleDamage = data.damage_relations.double_damage_from
     const halfDamage = data.damage_relations.half_damage_from
@@ -282,7 +188,7 @@ const getPokemonWeakness = async (pokemonType) => {
 }
 
 const getPokemonBenefits = async (pokemonType) => {
-    const data = await fetchTypeAPI(pokemonType)
+    const data = await api.fetchTypeAPI(pokemonType)
 
     const doubleDamage = data.damage_relations.double_damage_to
     const halfDamage = data.damage_relations.half_damage_to
@@ -304,29 +210,29 @@ const getWeakStrongTypes = (types) => {
 }
 
 const getPokemonStats = async (pokemon) => {
-    const data = await fetchPokemonAPI(pokemon)
+    const data = await api.fetchPokemonAPI(pokemon)
 
     const pokemonStats = []
     const dataStats = data.stats
 
     dataStats.forEach((pokemonStatus) => {
-        pokemonStats.push([capitalize(pokemonStatus.stat.name), pokemonStatus.base_stat, pokemonStatus.effort])
+        pokemonStats.push([support.capitalize(pokemonStatus.stat.name), pokemonStatus.base_stat, pokemonStatus.effort])
     })
 }
 
 const getPokemonEggGroup = async (pokemon) => {
-    const data = await fetchSpecieAPI(pokemon)
+    const data = await api.fetchSpecieAPI(pokemon)
 
     const pokemonEggGroups = []
     const dataEggGroups = data.egg_groups
 
     dataEggGroups.forEach((pokemonEggGroup) => {
-        pokemonEggGroups.push(capitalize(pokemonEggGroup.name))
+        pokemonEggGroups.push(support.capitalize(pokemonEggGroup.name))
     })
 }
 
 const getPokemonGrowthRate = async (pokemon) => {
-    const data = await fetchSpecieAPI(pokemon)
+    const data = await api.fetchSpecieAPI(pokemon)
 
     const pokemonGrowthRate = data.growth_rate.name
 
@@ -334,7 +240,7 @@ const getPokemonGrowthRate = async (pokemon) => {
 }
 
 const getPokemonXPPerLevel = async (growthRateName) => {
-    const data = await fetchGrowthRateAPI(growthRateName)
+    const data = await api.fetchGrowthRateAPI(growthRateName)
 
     const pokemonXPPerLevel = []
     const dataLevels = data.levels
@@ -345,10 +251,10 @@ const getPokemonXPPerLevel = async (growthRateName) => {
 }
 
 const getPokemonEvolutionChain = async (pokemon) => {
-    const data = await fetchSpecieAPI(pokemon)
+    const data = await api.fetchSpecieAPI(pokemon)
 
     const evolutionChainURL = data.evolution_chain.url
-    const dataEvolution = await fetchEvolutionAPI(evolutionChainURL)
+    const dataEvolution = await api.fetchEvolutionAPI(evolutionChainURL)
 
     const firstEvolve = dataEvolution.chain.species.name
     const secondEvolve = dataEvolution.chain.evolves_to[0].species.name
@@ -358,7 +264,7 @@ const getPokemonEvolutionChain = async (pokemon) => {
 }
 
 const getPokemonVarieties = async (pokemon) => {
-    const data = await fetchSpecieAPI(pokemon)
+    const data = await api.fetchSpecieAPI(pokemon)
 
     const pokemonVarieties = []
     const dataVarieties = data.varieties
@@ -366,12 +272,12 @@ const getPokemonVarieties = async (pokemon) => {
     dataVarieties.forEach((pokemonVarietion) => {
         getPokemonVarietionImage(pokemonVarietion.pokemon.url)
 
-        pokemonVarieties.push([pokemonVarietion.is_default, capitalize(pokemonVarietion.pokemon.name)])
+        pokemonVarieties.push([pokemonVarietion.is_default, support.capitalize(pokemonVarietion.pokemon.name)])
     })
 }
 
 const getPokemonVarietionImage = async (pokemonVarietionURL) => {
-    const data = await fetchVarietionAPI(pokemonVarietionURL)
+    const data = await api.fetchVarietionAPI(pokemonVarietionURL)
 
     const pokemonSpriteFront = data.sprites.versions["generation-v"]["black-white"].front_default
     const pokemonSpriteBack = data.sprites.versions["generation-v"]["black-white"].back_default
@@ -380,7 +286,7 @@ const getPokemonVarietionImage = async (pokemonVarietionURL) => {
 }
 
 const getPokedexInfos = async (pokemon) => {
-    const data = await fetchSpecieAPI(pokemon)
+    const data = await api.fetchSpecieAPI(pokemon)
 
     const pokedexDescription = []
     const pokemonGenus = data.genera[7].genus
@@ -389,7 +295,7 @@ const getPokedexInfos = async (pokemon) => {
 
     dataPokedex.forEach((pokedexInfo) => {
         if (pokedexInfo.language.name === "en") {
-            pokedexDescription.push([capitalize(pokedexInfo.version.name), pokedexInfo.flavor_text])
+            pokedexDescription.push([support.capitalize(pokedexInfo.version.name), pokedexInfo.flavor_text])
         }
     })
 }
