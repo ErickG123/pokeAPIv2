@@ -259,8 +259,6 @@ const getPokemonEvolutionChain = async (pokemon) => {
     const firstEvolve = dataEvolution.chain.species.name
     const secondEvolve = dataEvolution.chain.evolves_to[0].species.name
     const finalEvolve = dataEvolution.chain.evolves_to[0].evolves_to[0].species.name
-
-    //console.log(dataEvolution)
 }
 
 const getPokemonVarieties = async (pokemon) => {
@@ -299,20 +297,6 @@ const getPokedexInfos = async (pokemon) => {
         }
     })
 }
-
-// const buttonNext = document.querySelector('.nextButton')
-// buttonNext.addEventListener('click', () => {
-//     defaultPokemon += 1
-//     startApp(defaultPokemon.toString())
-// })
-
-// const buttonPrev = document.querySelector('.prevButton')
-// buttonPrev.addEventListener('click', () => {
-//     if (defaultPokemon > 1) {
-//         defaultPokemon -= 1
-//         startApp(defaultPokemon.toString())
-//     }
-// })
 
 const startApp = (pokemon) => {
     getPokemonData(pokemon)

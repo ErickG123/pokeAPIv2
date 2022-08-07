@@ -11,6 +11,18 @@ export default class API {
         }
     }
 
+    fetchSpecieAPI = async (pokemonId) => {
+        const specieInfosURL = `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`
+
+        try {
+            const APIResponse = await fetch(specieInfosURL)
+            const data = await APIResponse.json()
+            return data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     fetchMoveAPI = async (moveName) => {
         const moveInfosURL = `https://pokeapi.co/api/v2/move/${moveName}`
 
@@ -40,18 +52,6 @@ export default class API {
 
         try {
             const APIResponse = await fetch(typeInfosURL)
-            const data = await APIResponse.json()
-            return data
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    fetchSpecieAPI = async (pokemonId) => {
-        const specieInfosURL = `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}`
-
-        try {
-            const APIResponse = await fetch(specieInfosURL)
             const data = await APIResponse.json()
             return data
         } catch (error) {
