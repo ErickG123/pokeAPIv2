@@ -5,4 +5,20 @@ export default class Support {
 
         return moveNameCapitalized
     }
+
+    stepsHatchEgg = (eggCycle) =>  {
+        const steps = eggCycle * 256
+  
+        return steps
+    }
+
+    calcGenderDistribution = (genderRate) => {
+        const female = (genderRate * 100) / 8
+        const male = 100 - female
+
+        return {
+            female,
+            male
+        }
+    }
 }

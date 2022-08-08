@@ -1,4 +1,4 @@
-let defaultPokemon = 25
+let defaultPokemon = 1
 
 import API from "./modules/fetchAPI.js"
 const api = new API()
@@ -41,6 +41,29 @@ const getPokemonSpecie = async (pokemonId) => {
     const pokemonIsBaby = data.is_baby
     const pokemonIsLegendary = data.is_legendary
     const pokemonIsMythical = data.is_mythical
+
+    let pokemonEggCycle
+    let pokemonStepsHatchEgg
+
+    if (data.hatch_counter != null) {
+        pokemonEggCycle = data.hatch_counter
+        pokemonStepsHatchEgg = support.stepsHatchEgg(pokemonEggCycle)
+    }
+}
+
+const getGenderDistribution = async (pokemon) => {
+    const data = await api.fetchSpecieAPI(pokemon)
+
+    if (!data) {
+        console.error('Data not found in getGenderDistribution.')
+        return
+    }
+
+    const genderRate = data.gender_rate
+
+    const distribution = support.calcGenderDistribution(genderRate)
+
+    console.log(distribution)
 }
 
 const getPokemonTypes = async (pokemon) => {
@@ -426,6 +449,7 @@ const startApp = (pokemon) => {
     getPokemonEvolutionChain(pokemon)
     getPokemonVarieties(pokemon)
     getPokedexInfos(pokemon)
+    getGenderDistribution(pokemon)
 }
 
 startApp(defaultPokemon.toString().toLowerCase())
