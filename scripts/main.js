@@ -1,10 +1,13 @@
-let defaultPokemon = 1
+let defaultPokemon = 25
 
 import API from "./modules/fetchAPI.js"
 const api = new API()
 
 import Support from "./modules/supportFunctions.js"
 const support = new Support()
+
+import PokemonStats from "./utils/pokemonStats.js"
+const pokemonStats = new PokemonStats()
 
 const getPokemonData = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
@@ -62,8 +65,6 @@ const getGenderDistribution = async (pokemon) => {
     const genderRate = data.gender_rate
 
     const distribution = support.calcGenderDistribution(genderRate)
-
-    console.log(distribution)
 }
 
 const getPokemonTypes = async (pokemon) => {
@@ -297,22 +298,6 @@ const getWeakStrongTypes = (types) => {
     return dataTypes
 }
 
-const getPokemonStats = async (pokemon) => {
-    const data = await api.fetchPokemonAPI(pokemon)
-
-    if (!data) {
-        console.error('Data not found in getPokemonStats.')
-        return
-    }
-
-    const pokemonStats = []
-    const dataStats = data.stats
-
-    dataStats.forEach((pokemonStatus) => {
-        pokemonStats.push([support.capitalize(pokemonStatus.stat.name), pokemonStatus.base_stat, pokemonStatus.effort])
-    })
-}
-
 const getPokemonEggGroup = async (pokemon) => {
     const data = await api.fetchSpecieAPI(pokemon)
 
@@ -326,35 +311,6 @@ const getPokemonEggGroup = async (pokemon) => {
 
     dataEggGroups.forEach((pokemonEggGroup) => {
         pokemonEggGroups.push(support.capitalize(pokemonEggGroup.name))
-    })
-}
-
-const getPokemonGrowthRate = async (pokemon) => {
-    const data = await api.fetchSpecieAPI(pokemon)
-
-    if (!data) {
-        console.error('Data not found in getPokemonGrowthRate.')
-        return
-    }
-
-    const pokemonGrowthRate = data.growth_rate.name
-
-    getPokemonXPPerLevel(pokemonGrowthRate)
-}
-
-const getPokemonXPPerLevel = async (growthRateName) => {
-    const data = await api.fetchGrowthRateAPI(growthRateName)
-
-    if (!data) {
-        console.error('Data not found in getPokemonXPPerLevel.')
-        return
-    }
-
-    const pokemonXPPerLevel = []
-    const dataLevels = data.levels
-
-    dataLevels.forEach((pokemonLevel) => {
-        pokemonXPPerLevel.push([pokemonLevel.level, pokemonLevel.experience])
     })
 }
 
@@ -443,13 +399,14 @@ const startApp = (pokemon) => {
     getPokemonSpriteMale(pokemon)
     getPokemonSpriteFemale(pokemon)
     getPokemonHeldItems(pokemon)
-    getPokemonStats(pokemon)
     getPokemonEggGroup(pokemon)
-    getPokemonGrowthRate(pokemon)
     getPokemonEvolutionChain(pokemon)
     getPokemonVarieties(pokemon)
     getPokedexInfos(pokemon)
     getGenderDistribution(pokemon)
+
+    pokemonStats.getPokemonGrowthRate(pokemon)
+    pokemonStats.getPokemonStats(pokemon)
 }
 
 startApp(defaultPokemon.toString().toLowerCase())
