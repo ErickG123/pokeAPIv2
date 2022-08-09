@@ -123,6 +123,7 @@ const getMoveInfos = async (pokemonMove) => {
 
     let moveContestType
     let moveEffect
+    let moveDescription = []
 
     if (!data.contest_type) {
         moveContestType = '-'
@@ -135,6 +136,20 @@ const getMoveInfos = async (pokemonMove) => {
     } else {
         moveEffect = data.effect_entries[0].effect
     }
+
+    if (!data.flavor_text_entries) {
+        moveDescription = '-'
+    } else {
+        const dataDescription = data.flavor_text_entries
+
+        dataDescription.forEach((description) => {
+            if (description.language.name === "en") {
+                moveDescription.push([description.version_group.name, description.flavor_text])
+            }
+        })
+    }
+
+    console.log(moveDescription)
 }
 
 const getPokemonAbilities = async (pokemon) => {
