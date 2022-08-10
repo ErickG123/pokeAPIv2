@@ -1,4 +1,4 @@
-let defaultPokemon = 25
+let defaultPokemon = 'eevee'
 
 import API from "./modules/fetchAPI.js"
 const api = new API()
@@ -8,6 +8,9 @@ const support = new Support()
 
 import PokemonStats from "./utils/pokemonStats.js"
 const pokemonStats = new PokemonStats()
+
+import PokemonEvolutions from "./utils/pokemonEvolutions.js"
+const pokemonEvolutions = new PokemonEvolutions()
 
 const getPokemonData = async (pokemon) => {
     const data = await api.fetchPokemonAPI(pokemon)
@@ -148,8 +151,6 @@ const getMoveInfos = async (pokemonMove) => {
             }
         })
     }
-
-    console.log(moveDescription)
 }
 
 const getPokemonAbilities = async (pokemon) => {
@@ -177,6 +178,8 @@ const getPokemonAbilityInfos = async (pokemonAbility) => {
         console.error('Data not found in getPokemonAbilityInfos.')
         return
     }
+
+    // Mudar a forma de pegar a abilitityEffect, colocar usando a forma do forEach
 
     const abilityEffect = data.effect_entries[1].effect
 }
@@ -329,22 +332,6 @@ const getPokemonEggGroup = async (pokemon) => {
     })
 }
 
-const getPokemonEvolutionChain = async (pokemon) => {
-    const data = await api.fetchSpecieAPI(pokemon)
-
-    if (!data || !data.evolution_chain) {
-        console.error('Data not found in getPokemonEvolutionChain.')
-        return
-    }
-
-    const evolutionChainURL = data.evolution_chain.url
-    const dataEvolution = await api.fetchEvolutionAPI(evolutionChainURL)
-
-    const firstEvolve = dataEvolution.chain.species.name
-    const secondEvolve = dataEvolution.chain.evolves_to[0].species.name
-    const finalEvolve = dataEvolution.chain.evolves_to[0].evolves_to[0].species.name
-}
-
 const getPokemonVarieties = async (pokemon) => {
     const data = await api.fetchSpecieAPI(pokemon)
 
@@ -415,13 +402,20 @@ const startApp = (pokemon) => {
     getPokemonSpriteFemale(pokemon)
     getPokemonHeldItems(pokemon)
     getPokemonEggGroup(pokemon)
-    getPokemonEvolutionChain(pokemon)
     getPokemonVarieties(pokemon)
     getPokedexInfos(pokemon)
     getGenderDistribution(pokemon)
 
     pokemonStats.getPokemonGrowthRate(pokemon)
     pokemonStats.getPokemonStats(pokemon)
+
+    pokemonEvolutions.getEvolutionChainURL(pokemon)
 }
 
 startApp(defaultPokemon.toString().toLowerCase())
+
+// setInterval(() => {
+//     defaultPokemon++
+//     console.log(defaultPokemon)
+//     startApp(defaultPokemon.toString().toLowerCase())
+// }, 500)

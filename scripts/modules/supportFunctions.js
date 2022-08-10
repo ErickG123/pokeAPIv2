@@ -1,9 +1,20 @@
 export default class Support {
-    capitalize = (moveName) => {
-        const moveNameReplace = moveName.replaceAll('-', ' ')
-        const moveNameCapitalized = moveNameReplace.charAt(0).toUpperCase() + moveNameReplace.slice(1)
+    capitalize = (word) => {
+        const wordReplace = word.replaceAll('-', ' ')
+        const wordCapitalized = wordReplace.charAt(0).toUpperCase() + wordReplace.slice(1)
 
-        return moveNameCapitalized
+        return wordCapitalized
+    }
+
+    capitalizeArray = (array) => {
+        const wordsCapitalizeds = []
+
+        array.forEach((word) => {
+            const wordReplace = word.replaceAll('-', ' ')
+            const wordCapitalized = wordReplace.charAt(0).toUpperCase() + wordReplace.slice(1)
+
+            wordsCapitalizeds.push(wordCapitalized)
+        })
     }
 
     stepsHatchEgg = (eggCycle) =>  {
