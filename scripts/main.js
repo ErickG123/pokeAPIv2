@@ -179,9 +179,15 @@ const getPokemonAbilityInfos = async (pokemonAbility) => {
         return
     }
 
-    // Mudar a forma de pegar a abilitityEffect, colocar usando a forma do forEach
+    const dataEffects = data.effect_entries
 
-    const abilityEffect = data.effect_entries[1].effect
+    let abilityEffect
+
+    dataEffects.forEach((dataEffect) => {
+        if (dataEffect.language.name === "en") {
+            abilityEffect = dataEffect.effect
+        }
+    })
 }
 
 const getPokemonImage = async (pokemon) => {
