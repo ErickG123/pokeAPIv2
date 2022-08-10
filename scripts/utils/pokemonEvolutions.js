@@ -41,12 +41,10 @@ export default class PokemonEvolutions {
         while (numberEvolution != -1) {
             let dataEvolve = dataEvolution.chain.evolves_to[numberEvolution]
 
-            pokemonName.push(dataEvolve.species.name)
+            pokemonName.push(support.capitalize(dataEvolve.species.name))
 
             numberEvolution--
         }
-
-        support.capitalizeArray(pokemonName)
     }
 
     getFinalStage = (dataEvolution) => {
@@ -62,14 +60,12 @@ export default class PokemonEvolutions {
             let numberFinalEvolutions = dataFinalEvolve.length - 1
 
             while (numberFinalEvolutions != -1) {
-                pokemonName.push(dataFinalEvolve[numberFinalEvolutions].species.name)
+                pokemonName.push(support.capitalize(dataFinalEvolve[numberFinalEvolutions].species.name))
 
                 numberFinalEvolutions--
             }
 
             numberEvolution--
         }
-
-        support.capitalizeArray(pokemonName)
     }
 }
