@@ -1,4 +1,4 @@
-let defaultPokemon = 'eevee'
+let defaultPokemon = 25
 
 import API from "./modules/fetchAPI.js"
 const api = new API()
