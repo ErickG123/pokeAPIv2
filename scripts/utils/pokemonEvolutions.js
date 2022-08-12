@@ -45,6 +45,8 @@ export default class PokemonEvolutions {
 
             numberEvolution--
         }
+
+        return pokemonName
     }
 
     getFinalStage = (dataEvolution) => {
@@ -67,5 +69,7 @@ export default class PokemonEvolutions {
 
             numberEvolution--
         }
+
+        return pokemonName
     }
 }
